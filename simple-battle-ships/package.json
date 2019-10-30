@@ -11,7 +11,7 @@
   },
   "author": "Muhammad Hussain",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "jest": "^24.9.0"
   }
 }
