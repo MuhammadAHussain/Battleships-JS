@@ -12,13 +12,15 @@ class Player {
         number++;
     }
 
-    getScore() {
-        return this.score;
-    }
+    //The player may not need to track the score as that would be the boards responsibility.
 
-    setScore(points) {
-        this.score += points; 
-    }
+    // getScore() {
+    //     return this.score;
+    // }
+
+    // setScore(points) {
+    //     this.score = points; 
+    // }
 
 }
 
