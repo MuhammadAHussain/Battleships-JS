@@ -1,0 +1,17 @@
+{
+  "name": "simple-battle-ships",
+  "version": "1.0.0",
+  "description": "simple battleships game",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Muhammad Hussain",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^24.9.0"
+  }
+}
