@@ -1,27 +1,28 @@
+var name = '';
+var score;
+
 class Player {
+  constructor(pName) {
+    name = pName ? pName : 'Player ' + Player.playerNum;
+    pName ? Player.playerNum : (Player.playerNum += 1);
+    score = 0;
+  }
 
-    static number = 1;
+  getName() {
+    return name;
+  }
 
-    constructor(name) {
-        this.name = name;
-        this.score = 0;
-    }
+  //The player may not need to track the score as that would be the boards responsibility.
 
-    constructor() {
-        this.name = "Player " + number;
-        number++;
-    }
+//   getScore() {
+//     return score;
+//   }
 
-    //The player may not need to track the score as that would be the boards responsibility.
-
-    // getScore() {
-    //     return this.score;
-    // }
-
-    // setScore(points) {
-    //     this.score = points; 
-    // }
-
+  // setScore(points) {
+  //     this.score = points;
+  // }
 }
 
-module.exports.Player;
+Player.playerNum = 1;
+
+module.exports = Player;
