@@ -1,4 +1,4 @@
-class ship {
+class Ship {
 
     constructor(name) {
         this.name = name;
@@ -22,4 +22,4 @@ class ship {
 
 }
 
-module.exports.ship;
+module.exports.Ship;
