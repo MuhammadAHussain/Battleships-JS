@@ -1,6 +1,6 @@
 const player = require('../src/player');
 
-describe('should check if a player object can be created and can access its methods', () => {
+describe('check if a player object can be created and can access its methods', () => {
   it('should have the players name if passed as argument', () => {
     const player_one = new player('tester_one');
     expect(player_one.getName()).toEqual('tester_one');
