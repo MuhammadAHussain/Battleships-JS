@@ -1,30 +1,50 @@
+var name;
+// var width;
+var height;
+// var damage;
+var health;
+var isSunk;
+
 class Ship {
+  constructor(sName) {
+    name = sName ? sName : 'Ship ' + Ship.shipNum;
+    sName ? Ship.shipNum : Ship.shipNum++;
+    // width = 1;
+    height = 4;
+    // damage = 100 / height;
+    health = 100;
+    isSunk = false;
+  }
 
-    constructor(name) {
-        this.name = name;
-        this.width = 1;
-        this.height = 4;
-        this.damage = 100/this.height;
-        this.health = 100;
-        this.isSunk = false;
-    }
+  getName() {
+    return name;
+  }
 
-    getHealth() {
-        return this.health;
-    }
+  getHealth() {
+    return health;
+  }
 
-    getDamage() {
-        return this.damage;
-    }
+  getDamage() {
+    return damage;
+  }
 
-    setHealth(hitDamage) {
-        this.health -= hitDamage;
-    }
+  getHeight() {
+    return height;
+  }
 
-    setIsAlive(status) {
-        this.status = status;
-    }
+  getIsSunk() {
+    return isSunk;
+  }
 
+  setIsSunk(status) {
+    isSunk = status;
+  }
+
+  setHealth(newHealth) {
+    health = newHealth;
+  }
 }
 
-module.exports.Ship;
+Ship.shipNum = 1;
+
+module.exports = Ship;
