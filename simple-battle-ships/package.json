@@ -1,0 +1,24 @@
+{
+  "name": "simple-battle-ships",
+  "version": "1.0.0",
+  "description": "simple battleships game",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Muhammad Hussain",
+  "license": "ISC",
+  "jest": {
+    "testEnvironment": "jest-environment-node",
+    "testMatch": [
+      "**/test/*.js"
+    ],
+    "verbose": false
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}
