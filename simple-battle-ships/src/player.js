@@ -1,10 +1,10 @@
-var name = '';
+var name;
 var score;
 
 class Player {
   constructor(pName) {
     name = pName ? pName : 'Player ' + Player.playerNum;
-    pName ? Player.playerNum : (Player.playerNum += 1);
+    pName ? Player.playerNum : Player.playerNum++;
     score = 0;
   }
 
