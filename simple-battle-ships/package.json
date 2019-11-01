@@ -19,6 +19,7 @@
     "verbose": false
   },
   "devDependencies": {
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "sinon": "^7.5.0"
   }
 }
