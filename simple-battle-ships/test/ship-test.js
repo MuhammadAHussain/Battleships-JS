@@ -26,4 +26,17 @@ describe('should create a ship object and access it methods', () => {
     ship_one.setIsSunk(true);
     expect(ship_one.getIsSunk()).toEqual(true);
   });
+
+  it.only('should be able to set, get a ships coordinates and orientation', () => {
+    expect(ship_one.getCoordinates()).toStrictEqual({ x: 0, y: 0 });
+    expect(ship_one.getOrientation()).toEqual('vertical');
+
+    ship_one.setCoordinates({ x: 10, y: 10 });
+    ship_one.setOrientation('horizontal');
+
+    console.log(ship_one.getCoordinates());
+
+    expect(ship_one.getCoordinates()).toStrictEqual({ x: 10, y: 10 });
+    expect(ship_one.getOrientation()).toEqual('horizontal');
+  });
 });
