@@ -1,15 +1,23 @@
 const player = require('../src/player');
 
-describe('check if a player object can be created and can access its methods', () => {
-  it('should have the players name if passed as argument', () => {
-    const player_one = new player('tester_one');
-    expect(player_one.getName()).toEqual('tester_one');
-    // expect(player_one.getScore()).toEqual(0);
+describe('player', () => {
+  describe('given that an argument is passed when object is created', () => {
+    beforeEach(() => {
+      return (player_one = new player('tester_one'));
+    });
+
+    it('should have the value of name', () => {
+      expect(player_one.getName()).toEqual('tester_one');
+    });
   });
 
-  it('should store Player 1 when no name is passed to object', () => {
-    const player_one = new player();
-    expect(player_one.getName()).toEqual('Player 1');
-    // expect(player_one.getScore()).toEqual(0);
+  describe('given that an argument is NOT passed when an object is created', () => {
+    beforeEach(() => {
+      return (player_one = new player());
+    });
+
+    it('should store Player 1 when no name is passed to object', () => {
+      expect(player_one.getName()).toEqual('Player 1');
+    });
   });
 });

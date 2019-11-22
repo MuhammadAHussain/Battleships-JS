@@ -1,8 +1,6 @@
 const coordinate = require('../src/coordinate.js');
 
 var name;
-// var width;
-// var damage;
 var length;
 var health;
 var isSunk;
@@ -13,13 +11,10 @@ class Ship {
   constructor(sName) {
     name = sName ? sName : 'Ship ' + Ship.shipNum;
     sName ? Ship.shipNum : Ship.shipNum++;
-    // width = 1;
     length = 4;
-    // damage = 100 / height;
     health = 100;
     isSunk = false;
     orientation = 'vertical';
-    // coordinates.push([0]);
     coordinates = [];
   }
 
