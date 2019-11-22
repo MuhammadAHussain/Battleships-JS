@@ -2,8 +2,6 @@ var grid;
 var hitsAndMisses;
 class board {
   constructor() {
-    // hits = [[]];
-    // misses = [[]];
     grid = [];
     this.initialiseArray();
   }
@@ -20,22 +18,6 @@ class board {
   getBoard() {
     return grid;
   }
-  
-  // placeShip(shipCoordinates, shipOrientation = 'vertical') {
-  //   if (orientation === 'vertical') {
-  //     orientation = shipOrientationl;
-  //     for (var i = 0; i < length; i++) {
-  //       coordinates[i] = new coordinate().setCoordinates(shipCoordinates);
-  //       shipCoordinates.x++;
-  //     }
-  //   } else {
-  //     orientation = shipOrientationl;
-  //     for (var i = 0; i < length; i++) {
-  //       coordinates[i] = new coordinate().setCoordinates(shipCoordinates);
-  //       shipCoordinates.y++;
-  //     }
-  //   }
-  // }
 }
 
 module.exports = board;
