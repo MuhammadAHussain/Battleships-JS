@@ -1,23 +1,41 @@
-name: Node CI
+# name: Node CI
 
-on:
+# on:
+#   push:
+#     branches:
+#       - master
+#       - workflow-job
+
+# jobs:
+#   build:
+
+#     runs-on: ubuntu-latest
+
+#     strategy:
+#       matrix:
+#         node-version: [8.x, 10.x, 12.x]
+
+#     steps:
+#       name:
+#           - npm clean and install
+#       uses: ./simple-battle-ships/test/
+#       run: |
+#         npm ci
+
+name: Install packages and run unit tests
+
+on: 
   push:
     branches:
-      - master
-    paths:
-      - test/*
+      - '*'
 
 jobs:
-  build:
-
+  install-and-run-tests:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [8.x, 10.x, 12.x]
-
     steps:
-    - name: npm install, build, and test
-      run: |
-        npm ci
-        npm test
+      - uses: actions/checkout@master
+      - name: Install packages
+        run: | 
+          cd simple-battle-ships/
+          npm install
+          npm test
