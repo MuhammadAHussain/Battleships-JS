@@ -53,7 +53,7 @@ class Ship {
   setOrientation(newOrientation) {
     orientation = newOrientation;
   }
-
+  
   setCoordinates(shipCoordinates, index = 0) {
     coordinates[index] = {
       coordinates: shipCoordinates,
