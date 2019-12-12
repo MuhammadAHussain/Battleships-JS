@@ -1,19 +1,15 @@
 var coordinates;
 
 class coordinate {
-  constructor() {
+  constructor(x, y) {
     coordinates = {
-      x: 0,
-      y: 0
+      x,
+      y,
     };
   }
 
   getCoordinates() {
     return coordinates;
-  }
-
-  setCoordinates(newCoordinates) {
-    coordinates = newCoordinates;
   }
 }
 

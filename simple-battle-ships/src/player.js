@@ -11,16 +11,6 @@ class Player {
   getName() {
     return name;
   }
-
-  //The player may not need to track the score as that would be the boards responsibility.
-
-//   getScore() {
-//     return score;
-//   }
-
-  // setScore(points) {
-  //     this.score = points;
-  // }
 }
 
 Player.playerNum = 1;

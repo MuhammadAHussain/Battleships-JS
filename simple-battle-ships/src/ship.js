@@ -1,8 +1,6 @@
 const coordinate = require('../src/coordinate.js');
 
 var name;
-// var width;
-// var damage;
 var length;
 var health;
 var isSunk;
@@ -13,13 +11,11 @@ class Ship {
   constructor(sName) {
     name = sName ? sName : 'Ship ' + Ship.shipNum;
     sName ? Ship.shipNum : Ship.shipNum++;
-    // width = 1;
     length = 4;
-    // damage = 100 / height;
     health = 100;
     isSunk = false;
     orientation = 'vertical';
-    coordinates = new coordinate();
+    coordinates = [];
   }
 
   getName() {
@@ -47,11 +43,7 @@ class Ship {
   }
 
   getCoordinates() {
-    return coordinates.getCoordinates();
-  }
-
-  setIsSunk(status) {
-    isSunk = status;
+    return coordinates;
   }
 
   setHealth(newHealth) {
@@ -61,11 +53,25 @@ class Ship {
   setOrientation(newOrientation) {
     orientation = newOrientation;
   }
+  
+  setCoordinates(shipCoordinates, index = 0) {
+    coordinates[index] = {
+      coordinates: shipCoordinates,
+      isHit: false
+    };
+  }
 
-  setCoordinates(coordinates) {
-    coordinates.setCoordinates(coordinates);
+  setIsHitForCoordinate(index) {
+    if (isSunk === false) {
+      coordinates[index].isHit = true;
+      isSunk = updateShipStatus(coordinates);
+    }
   }
 }
+
+let updateShipStatus = coordinates => {
+  return coordinates.every(elem => elem.isHit === true);
+};
 
 Ship.shipNum = 1;
 

@@ -1,42 +1,120 @@
 const ship = require('../src/ship.js');
 
-describe('should create a ship object and access it methods', () => {
-  it('should create a ship object and have the same name as the one that is passed', () => {
-    const ship_one = new ship('ship_one');
-    expect(ship_one.getName()).toEqual('ship_one');
-  });
+const expectedCoordinates = [
+  { coordinates: { x: 11, y: 10 }, isHit: false },
+  { coordinates: { x: 12, y: 10 }, isHit: false },
+  { coordinates: { x: 13, y: 10 }, isHit: false },
+];
 
-  it('should create a ship object with a default name if no name argument is passed', () => {
-    const ship_one = new ship();
-    expect(ship_one.getName()).toEqual('Ship 1');
-  });
-
+describe('ship', () => {
   beforeEach(() => {
     return (ship_one = new ship('ship_one'));
   });
+  describe('getName', () => {
+    describe('given a name is passed as an argument when object is created', () => {
+      it('should return the value of variable name', () => {
+        expect(ship_one.getName()).toEqual('ship_one');
+      });
+    });
 
-  it('should be able to access a ships health and damage the ships health', () => {
-    expect(ship_one.getHealth()).toEqual(100);
-    ship_one.setHealth(75);
-    expect(ship_one.getHealth()).toEqual(75);
+    describe('given that a name is NOT passed as an argument when object is created', () => {
+      beforeEach(() => {
+        return (ship_one = new ship());
+      });
+
+      it('should return the default name stored', () => {
+        expect(ship_one.getName()).toEqual('Ship 1');
+      });
+    });
   });
 
-  it('should be able to check if a ship has sunk and update the ships isSunk variable', () => {
-    expect(ship_one.getIsSunk()).toEqual(false);
-    ship_one.setIsSunk(true);
-    expect(ship_one.getIsSunk()).toEqual(true);
+  describe('getCoordinates', () => {
+    beforeEach(() => {
+      return (ship_one = new ship());
+    });
+
+    it('should not have any coordinates when a new ship object is created', () => {
+      expect(ship_one.getCoordinates()).toEqual([]);
+    });
   });
 
-  it.only('should be able to set, get a ships coordinates and orientation', () => {
-    expect(ship_one.getCoordinates()).toStrictEqual({ x: 0, y: 0 });
-    expect(ship_one.getOrientation()).toEqual('vertical');
+  describe('setCoordinates', () => {
+    it('should be able to set coordinates for a ship', () => {
+      ship_one.setCoordinates({ x: 11, y: 10 }, 0);
+      ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+      ship_one.setCoordinates({ x: 13, y: 10 }, 2);
 
-    ship_one.setCoordinates({ x: 10, y: 10 });
-    ship_one.setOrientation('horizontal');
+      expect(ship_one.getCoordinates()).toEqual(expectedCoordinates);
+    });
 
-    console.log(ship_one.getCoordinates());
+    describe('getHealth', () => {
+      beforeEach(() => {
+        ship_one.setCoordinates({ x: 11, y: 10 }, 0);
+        ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+        ship_one.setCoordinates({ x: 13, y: 10 }, 2);
+      });
 
-    expect(ship_one.getCoordinates()).toStrictEqual({ x: 10, y: 10 });
-    expect(ship_one.getOrientation()).toEqual('horizontal');
+      it('should get the health of a ship', () => {
+        expect(ship_one.getHealth()).toEqual(100);
+      });
+    });
+
+    describe('setHealth', () => {
+      beforeEach(() => {
+        ship_one.setCoordinates({ x: 11, y: 10 }, 0);
+        ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+        ship_one.setCoordinates({ x: 13, y: 10 }, 2);
+      });
+
+      it('should set the health of a ship', () => {
+        expect.assertions(2);
+        expect(ship_one.getHealth()).toEqual(100);
+        ship_one.setHealth(75);
+        expect(ship_one.getHealth()).toEqual(75);
+      });
+    });
+  });
+
+  describe('setIsHitForCoordinate', () => {
+    beforeEach(() => {
+      ship_one.setCoordinates({ x: 11, y: 10 }, 0);
+      ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+      ship_one.setCoordinates({ x: 13, y: 10 }, 2);
+    });
+
+    it('should be able to hit a coordinate and check if a ship has sunk', () => {
+      expect.assertions(2);
+
+      const hitCoordinate = { coordinates: { x: 11, y: 10 }, isHit: true };
+
+      expect(ship_one.getCoordinates()).toEqual(expectedCoordinates);
+
+      ship_one.setIsHitForCoordinate(0);
+      
+      expect(ship_one.getCoordinates()[0]).toEqual(hitCoordinate);
+    });
+
+    describe('given that a part of a ship is hit', () => {
+      it('should check if the ship has sunk', () => {
+        expect(ship_one.getIsSunk()).toEqual(false);
+      });
+    });
+  });
+
+  describe('getOrientation', () => {
+    it('should be able to get a ships orientation', () => {    
+      expect(ship_one.getOrientation()).toEqual('vertical');
+    });
+  });
+
+  describe('setOrientation', () => {
+    it('should be able to set a ships orientation', () => {
+      expect.assertions(2);      
+      expect(ship_one.getOrientation()).toEqual('vertical');
+
+      ship_one.setOrientation('horizontal');
+
+      expect(ship_one.getOrientation()).toEqual('horizontal');
+    });
   });
 });
