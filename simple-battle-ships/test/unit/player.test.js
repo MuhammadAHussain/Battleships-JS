@@ -1,4 +1,4 @@
-const Player = require('../src/player');
+const Player = require('../../src/player');
 
 describe('Player', () => {
 	describe('given that an argument is passed when object is created', () => {

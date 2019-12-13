@@ -1,5 +1,5 @@
-const Board = require('../src/board');
-const Ship = require('../src/ship');
+const Board = require('../../src/board');
+const Ship = require('../../src/ship');
 
 const emptyBoard = [
 	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -52,7 +52,6 @@ describe('Board', () => {
 
 				expect(newBoard.getBoard()).toEqual(emptyBoard);
 				newBoard.placeShip(ship_one, {x: 3, y: 4});
-				console.log(newBoard.getBoard());
 				expect(newBoard.getBoard()).toEqual(expectedBoard);
 			});
 		});
