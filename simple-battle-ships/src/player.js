@@ -1,16 +1,14 @@
-var name;
-var score;
+let name;
 
 class Player {
-  constructor(pName) {
-    name = pName ? pName : 'Player ' + Player.playerNum;
-    pName ? Player.playerNum : Player.playerNum++;
-    score = 0;
-  }
+	constructor(pName) {
+		name = pName || 'Player ' + Player.playerNum;
+		pName ? Player.playerNum : Player.playerNum++;
+	}
 
-  getName() {
-    return name;
-  }
+	getName() {
+		return name;
+	}
 }
 
 Player.playerNum = 1;
