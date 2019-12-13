@@ -1,14 +1,14 @@
-const ship = require('../../src/ship.js');
+const Ship = require('../src/ship');
 
 const expectedCoordinates = [
 	{coordinates: {x: 11, y: 10}, isHit: false},
 	{coordinates: {x: 12, y: 10}, isHit: false},
-	{coordinates: {x: 13, y: 10}, isHit: false},
+	{coordinates: {x: 13, y: 10}, isHit: false}
 ];
 
-describe('ship', () => {
+describe('Ship', () => {
 	beforeEach(() => {
-		return (ship_one = new ship('ship_one'));
+		return (ship_one = new Ship('ship_one'));
 	});
 	describe('getName', () => {
 		describe('given a name is passed as an argument when object is created', () => {
@@ -19,7 +19,7 @@ describe('ship', () => {
 
 		describe('given that a name is NOT passed as an argument when object is created', () => {
 			beforeEach(() => {
-				return (ship_one = new ship());
+				return (ship_one = new Ship());
 			});
 
 			it('should return the default name stored', () => {
@@ -30,7 +30,7 @@ describe('ship', () => {
 
 	describe('getCoordinates', () => {
 		beforeEach(() => {
-			return (ship_one = new ship());
+			return (ship_one = new Ship());
 		});
 
 		it('should not have any coordinates when a new ship object is created', () => {
