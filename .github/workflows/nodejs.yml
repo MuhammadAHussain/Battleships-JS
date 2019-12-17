@@ -1,12 +1,12 @@
 name: setup project and run tests
 
-on: 
+on:
   push:
     branches:
       - '*'
 
 jobs:
-  setup-project-and-run-tests:
+  ci-pr-head:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -15,6 +15,5 @@ jobs:
       - name: Install packages
         run: |
           git checkout $current_branch
-          cd simple-battle-ships/
           npm install
           npm test
