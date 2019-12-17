@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  setup-project-and-run-tests:
+  ci-pr-head:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
