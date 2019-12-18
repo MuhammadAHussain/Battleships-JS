@@ -1,4 +1,4 @@
-name: setup project and run tests
+name: Run tests on pr head
 
 on:
   push:
@@ -12,8 +12,28 @@ jobs:
       - uses: actions/checkout@master
         env:
           current_branch: ${GITHUB_REF#refs/heads/}
-      - name: Install packages
+      - name: Change to pushed branch
         run: |
           git checkout $current_branch
+      - name: Install packages
+        run: |
           npm install
+      - name: Run tests
+        run: |
+          npm test
+
+  ci-pr-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        env:
+          current_branch: ${GITHUB_REF#refs/heads/}
+      - name: Merge branches
+        run: |
+          git merge $current_branch
+      - name: Install packages
+        run: |
+          npm install
+      - name: Run tests
+        run: |
           npm test
