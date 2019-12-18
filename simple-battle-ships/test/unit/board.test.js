@@ -1,4 +1,4 @@
-const board = require('../src/board.js');
+const board = require('../../src/board.js');
 
 const emptyBoard = [
 	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],

@@ -1,4 +1,4 @@
-const coordinate = require('../src/coordinate.js');
+const coordinate = require('../../src/coordinate.js');
 
 describe('coordinate', () => {
 	beforeEach(() => {
