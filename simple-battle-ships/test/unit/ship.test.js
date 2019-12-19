@@ -1,4 +1,4 @@
-const ship = require('../src/ship.js');
+const ship = require('../../src/ship.js');
 
 const expectedCoordinates = [
 	{coordinates: {x: 11, y: 10}, isHit: false},

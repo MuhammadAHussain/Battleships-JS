@@ -3,9 +3,6 @@
 	"version": "1.0.0",
 	"description": "simple battleships game",
 	"main": "index.js",
-	"directories": {
-		"test": "test"
-	},
 	"scripts": {
 		"pretest": "eslint .",
 		"test": "jest"
@@ -15,12 +12,13 @@
 	"jest": {
 		"testEnvironment": "jest-environment-node",
 		"testMatch": [
-			"**/test/*.js"
+			"**/test/**/*.js"
 		],
 		"verbose": false
 	},
 	"devDependencies": {
 		"babel-eslint": "^10.0.3",
+		"coverage": "^0.4.1",
 		"eslint": "^6.7.2",
 		"eslint-config-prettier": "^6.7.0",
 		"eslint-config-strongloop": "^2.1.0",
