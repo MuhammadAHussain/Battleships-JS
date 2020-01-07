@@ -2,8 +2,6 @@ name: Runs unit tests on project
 
 on:
   push:
-    branches:
-      - '*'
     branches-ignore:
       - 'master'
 
@@ -14,9 +12,9 @@ jobs:
       - uses: actions/checkout@master
         env:
           current_branch: ${GITHUB_REF#refs/heads/}
-      - name: Change to pushed branch
+      - name: Reset to last commit made
         run: |
-          git checkout $current_branch
+          git reset --hard
       - name: Install packages
         run: |
           npm install
@@ -30,9 +28,10 @@ jobs:
       - uses: actions/checkout@master
         env:
           current_branch: ${GITHUB_REF#refs/heads/}
-      - name: Merge branches
+      - name: Rebase with master
         run: |
-          echo $current_branch
+          git fetch
+          git checkout master
           git merge $current_branch
       - name: Install packages
         run: |
