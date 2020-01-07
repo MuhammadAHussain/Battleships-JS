@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - '*'
+    branches-ignore:
+      - 'master'
 
 jobs:
   ci-pr-head:
@@ -30,6 +32,7 @@ jobs:
           current_branch: ${GITHUB_REF#refs/heads/}
       - name: Merge branches
         run: |
+          echo $current_branch
           git merge $current_branch
       - name: Install packages
         run: |
