@@ -1,8 +1,8 @@
-const coordinate = require('../../src/coordinate.js');
+const Coordinate = require('../../src/coordinate');
 
-describe('coordinate', () => {
+describe('Coordinate', () => {
 	beforeEach(() => {
-		return (coordinates = new coordinate(0, 0));
+		return (coordinates = new Coordinate(0, 0));
 	});
 
 	describe('getCoordinates', () => {
