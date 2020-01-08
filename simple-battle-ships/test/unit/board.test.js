@@ -1,5 +1,4 @@
-const Board = require('../../src/board');
-const Ship = require('../../src/ship');
+const board = require('../../src/board.js');
 
 const emptyBoard = [
 	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -14,9 +13,9 @@ const emptyBoard = [
 	[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 ];
 
-describe('Board', () => {
+describe('board-test', () => {
 	beforeEach(() => {
-		return (newBoard = new Board());
+		return (newBoard = new board());
 	});
 	describe('initialiseArray', () => {
 		it('should be to create a board object', () => {
@@ -29,31 +28,6 @@ describe('Board', () => {
 	describe('getBoard', () => {
 		it('should retrieve the board', () => {
 			expect(newBoard.getBoard()).toEqual(emptyBoard);
-		});
-	});
-
-	describe('placeShip', () => {
-		describe('given a ship with coordinates', () => {
-			it('should place the ship on the board', () => {
-				const ship_one = new Ship('ship_one');
-
-				const expectedBoard = [
-					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-					[-1, -1, '\u2227', -1, -1, -1, -1, -1, -1, -1],
-					[-1, -1, '|', -1, -1, -1, -1, -1, -1, -1],
-					[-1, -1, '|', -1, -1, -1, -1, -1, -1, -1],
-					[-1, -1, '\u2228', -1, -1, -1, -1, -1, -1, -1],
-					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-				];
-
-				expect(newBoard.getBoard()).toEqual(emptyBoard);
-				newBoard.placeShip(ship_one, {x: 3, y: 4});
-				expect(newBoard.getBoard()).toEqual(expectedBoard);
-			});
 		});
 	});
 });
