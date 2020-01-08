@@ -1,6 +1,6 @@
 let coordinates;
 
-class coordinate {
+class Coordinate {
 	constructor(x, y) {
 		coordinates = {
 			x,
@@ -13,4 +13,4 @@ class coordinate {
 	}
 }
 
-module.exports = coordinate;
+module.exports = Coordinate;
