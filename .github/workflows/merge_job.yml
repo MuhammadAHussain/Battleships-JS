@@ -1,0 +1,21 @@
+namne: Run tests on master branch
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  ci_pr_head:
+    runs on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Reset to last commmit made
+        run: |
+          git reset --hard HEAD
+      - name: Install packages
+        run: |
+          npm Install
+      - name: Run tests
+        run: |
+          npm test

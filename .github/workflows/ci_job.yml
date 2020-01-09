@@ -1,4 +1,4 @@
-name: Runs unit tests on project
+name: Runs tests on project
 
 on:
   push:
