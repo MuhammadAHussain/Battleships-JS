@@ -30,6 +30,8 @@ jobs:
           current_branch: ${GITHUB_REF#refs/heads/}
       - name: Merge branches
         run: |
+          git fetch
+          git checkout master
           git merge $current_branch
       - name: Install packages
         run: |
