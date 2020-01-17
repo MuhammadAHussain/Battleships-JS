@@ -13,17 +13,22 @@ const emptyBoard = [
   [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 ];
 
-describe('board-test', () => {
-  beforeEach(() => {
-    return (newBoard = new board());
-  });
-  describe('initialiseArray', () => {
-    it('should be to create a board object', () => {
-      expect.assertions(2);
-      expect(newBoard.getBoard()).not.toBeNull();
-      expect(newBoard.getBoard().length).toEqual(10);
-    });
-  });
+// const setCoordinates = (Ship.prototype.setCoordinates = jest.fn());
+
+describe('Board', () => {
+	beforeEach(() => {
+		return (newBoard = new board());
+	});
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
+	describe('initialiseArray', () => {
+		it('should be to create a board object', () => {
+			expect.assertions(2);
+			expect(newBoard.getBoard()).not.toBeNull();
+			expect(newBoard.getBoard().length).toEqual(10);
+		});
+	});
 
 	describe('getBoard', () => {
 		it('should retrieve the board', () => {
@@ -50,7 +55,7 @@ describe('board-test', () => {
 				];
 
 				expect(newBoard.getBoard()).toEqual(emptyBoard);
-				newBoard.placeShip(ship_one, {x: 3, y: 4});
+				newBoard.placeShip(ship_one, { x: 3, y: 4 });
 				expect(newBoard.getBoard()).toEqual(expectedBoard);
 			});
 		});
@@ -71,8 +76,11 @@ describe('board-test', () => {
 					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 				];
 
+				// expect(setCoordinates).toHaveBeenCalledTimes(3);
+
 				expect(newBoard.getBoard()).toEqual(emptyBoard);
-				newBoard.placeShip(ship_one, {x: 3, y: 4}, 'horizontal');
+
+				newBoard.placeShip(ship_one, { x: 3, y: 4 }, 'horizontal');
 				expect(newBoard.getBoard()).toEqual(expectedBoard);
 			});
 		});
