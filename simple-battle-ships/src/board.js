@@ -21,35 +21,26 @@ class board {
 	placeShip(ship, coordinates, orientation = 'vertical') {
 		const shipLength = ship.getLength();
 
-		if (orientation === 'vertical') {
-			for (let index = 0; index < shipLength; index++) {
-				if (ship.getCoordinates().length === 0) {
-					board[coordinates.y - 1][coordinates.x - 1] = '\u2227';
-					ship.setCoordinates(coordinates, index);
-				} else if (index === shipLength - 1) {
-					board[coordinates.y - 1][coordinates.x - 1] = '\u2228';
-					ship.setCoordinates(coordinates, index);
-				} else {
-					board[coordinates.y - 1][coordinates.x - 1] = '|';
-					ship.setCoordinates(coordinates, index);
-				}
-				coordinates['y']++;
+		const front = orientation === 'vertical' ? '\u2227' : '\u2225';
+		const back = orientation === 'vertical' ? '\u2228' : '\u2226';
+
+		const changeAxis = orientation === 'vertical' ? 'y' : 'x';
+
+		for (let index = 0; index < shipLength; index++) {
+			if (ship.getCoordinates().length === 0) {
+				board[coordinates.y - 1][coordinates.x - 1] = front;
+				ship.setCoordinates(coordinates, index);
+			} else if (index === shipLength - 1) {
+				board[coordinates.y - 1][coordinates.x - 1] = back;
+				ship.setCoordinates(coordinates, index);
+			} else {
+				board[coordinates.y - 1][coordinates.x - 1] = '|';
+				ship.setCoordinates(coordinates, index);
 			}
-		} else {
-			for (let index = 0; index < shipLength; index++) {
-				if (ship.getCoordinates().length === 0) {
-					board[coordinates.y - 1][coordinates.x - 1] = '\u2225';
-					ship.setCoordinates(coordinates, index);
-				} else if (index === shipLength - 1) {
-					board[coordinates.y - 1][coordinates.x - 1] = '\u2226';
-					ship.setCoordinates(coordinates, index);
-				} else {
-					board[coordinates.y - 1][coordinates.x - 1] = '|';
-					ship.setCoordinates(coordinates, index);
-				}
-				coordinates['x']++;
-			}
+			coordinates[changeAxis]++;
 		}
+
+		return true;
 	}
 }
 

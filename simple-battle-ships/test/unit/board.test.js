@@ -32,15 +32,22 @@ describe('Board', () => {
 
 	describe('getBoard', () => {
 		it('should retrieve the board', () => {
-			expect(newBoard.getBoard()).toEqual(emptyBoard);
+			expect(newBoard.getBoard()).toStrictEqual(emptyBoard);
 		});
 	});
 
 	describe('placeShip', () => {
+		let ship_one;
+		beforeEach(() => {
+			ship_one = new Ship('ship_one');
+		});
+
+		afterEach(() => {
+			ship_one = undefined;
+		});
+
 		describe('given a ship with coordinates', () => {
 			it('should place the ship on the board', () => {
-				const ship_one = new Ship('ship_one');
-
 				const expectedBoard = [
 					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -54,15 +61,13 @@ describe('Board', () => {
 					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 				];
 
-				expect(newBoard.getBoard()).toEqual(emptyBoard);
+				expect(newBoard.getBoard()).toStrictEqual(emptyBoard);
 				newBoard.placeShip(ship_one, { x: 3, y: 4 });
-				expect(newBoard.getBoard()).toEqual(expectedBoard);
+				expect(newBoard.getBoard()).toStrictEqual(expectedBoard);
 			});
 		});
 		describe('given a ship with coordinates and an orientation', () => {
-			it('should pace the ship on the board in the horizontal orientation', () => {
-				const ship_one = new Ship('ship_on');
-
+			it('should place the ship on the board in the horizontal orientation', () => {
 				const expectedBoard = [
 					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 					[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -80,8 +85,14 @@ describe('Board', () => {
 
 				expect(newBoard.getBoard()).toEqual(emptyBoard);
 
-				newBoard.placeShip(ship_one, { x: 3, y: 4 }, 'horizontal');
+				expect(newBoard.placeShip(ship_one, { x: 3, y: 4 }, 'horizontal')).toEqual(true);
 				expect(newBoard.getBoard()).toEqual(expectedBoard);
+			});
+		});
+		describe('given a ship with coordinates and an invalid orientation', () => {
+			it('should not place the ship and return false', () => {
+
+				expect(newBoard.getBoard()).toStrictEqual(emptyBoard);
 			});
 		});
 	});
