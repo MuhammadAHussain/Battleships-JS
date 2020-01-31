@@ -1,9 +1,9 @@
-const ship = require('../../src/ship.js');
+const ship = require('../../src/ship');
 
 const expectedCoordinates = [
-  { coordinates: { x: 11, y: 10 }, isHit: false },
-  { coordinates: { x: 12, y: 10 }, isHit: false },
-  { coordinates: { x: 13, y: 10 }, isHit: false },
+	{ coordinates: { x: 11, y: 10 }, isHit: false },
+	{ coordinates: { x: 12, y: 10 }, isHit: false },
+	{ coordinates: { x: 13, y: 10 }, isHit: false }
 ];
 
 describe('ship', () => {
@@ -36,22 +36,47 @@ describe('ship', () => {
 		it('should not have any coordinates when a new ship object is created', () => {
 			expect(ship_one.getCoordinates()).toEqual([]);
 		});
+
+		it('should have coordinates when a ship coordinates are set', () => {
+			expect(ship_one.getCoordinates()).toEqual([]);
+
+			ship_one.setCoordinates({ x: 11, y: 10 }, 0);
+			ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+
+			expect(ship_one.getCoordinates()).toEqual([
+				{
+					coordinates: {
+						"x": 11,
+						"y": 10,
+					},
+					isHit: false,
+				},
+				{
+					coordinates: {
+						"x": 12,
+						"y": 10,
+					},
+					isHit: false,
+				}
+			]);
+
+		});
 	});
 
 	describe('setCoordinates', () => {
 		it('should be able to set coordinates for a ship', () => {
-			ship_one.setCoordinates({x: 11, y: 10}, 0);
-			ship_one.setCoordinates({x: 12, y: 10}, 1);
-			ship_one.setCoordinates({x: 13, y: 10}, 2);
+			ship_one.setCoordinates({ x: 11, y: 10 }, 0);
+			ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+			ship_one.setCoordinates({ x: 13, y: 10 }, 2);
 
 			expect(ship_one.getCoordinates()).toEqual(expectedCoordinates);
 		});
 
 		describe('getHealth', () => {
 			beforeEach(() => {
-				ship_one.setCoordinates({x: 11, y: 10}, 0);
-				ship_one.setCoordinates({x: 12, y: 10}, 1);
-				ship_one.setCoordinates({x: 13, y: 10}, 2);
+				ship_one.setCoordinates({ x: 11, y: 10 }, 0);
+				ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+				ship_one.setCoordinates({ x: 13, y: 10 }, 2);
 			});
 
 			it('should get the health of a ship', () => {
@@ -61,9 +86,9 @@ describe('ship', () => {
 
 		describe('setHealth', () => {
 			beforeEach(() => {
-				ship_one.setCoordinates({x: 11, y: 10}, 0);
-				ship_one.setCoordinates({x: 12, y: 10}, 1);
-				ship_one.setCoordinates({x: 13, y: 10}, 2);
+				ship_one.setCoordinates({ x: 11, y: 10 }, 0);
+				ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+				ship_one.setCoordinates({ x: 13, y: 10 }, 2);
 			});
 
 			it('should set the health of a ship', () => {
@@ -80,15 +105,15 @@ describe('ship', () => {
 
 	describe('setIsHitForCoordinate', () => {
 		beforeEach(() => {
-			ship_one.setCoordinates({x: 11, y: 10}, 0);
-			ship_one.setCoordinates({x: 12, y: 10}, 1);
-			ship_one.setCoordinates({x: 13, y: 10}, 2);
+			ship_one.setCoordinates({ x: 11, y: 10 }, 0);
+			ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+			ship_one.setCoordinates({ x: 13, y: 10 }, 2);
 		});
 
 		it('should be able to hit a coordinate and check if a ship has sunk', () => {
 			expect.assertions(2);
 
-			const hitCoordinate = {coordinates: {x: 11, y: 10}, isHit: true};
+			const hitCoordinate = { coordinates: { x: 11, y: 10 }, isHit: true };
 
 			expect(ship_one.getCoordinates()).toEqual(expectedCoordinates);
 
@@ -105,9 +130,9 @@ describe('ship', () => {
 
 		describe('given that the ship has been hit for the last time', () => {
 			beforeEach(() => {
-				ship_one.setCoordinates({x: 11, y: 10});
-				ship_one.setCoordinates({x: 12, y: 10}, 1);
-				ship_one.setCoordinates({x: 13, y: 10}, 2);
+				ship_one.setCoordinates({ x: 11, y: 10 });
+				ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+				ship_one.setCoordinates({ x: 13, y: 10 }, 2);
 				ship_one.setIsHitForCoordinate(0);
 				ship_one.setIsHitForCoordinate(1);
 			});
