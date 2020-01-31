@@ -1,16 +1,16 @@
 let coordinates;
 
 class coordinate {
-	constructor(x, y) {
-		coordinates = {
-			x,
-			y
-		};
-	}
+  constructor(x, y) {
+    coordinates = {
+      x,
+      y
+    };
+  }
 
-	getCoordinates() {
-		return coordinates;
-	}
+  getCoordinates() {
+    return coordinates;
+  }
 }
 
 module.exports = coordinate;
