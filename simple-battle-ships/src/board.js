@@ -3,7 +3,7 @@ const { ORIENTATIONS, ERRORMESSAGES, SUCCESS } = require('./lib/enums');
 var board;
 
 const validateCoordinates = (x, y) =>
-  (x - 1) <= board.length && (y - 1) <= board.length;
+  ((x - 1) <= board.length && (y - 1) <= board.length) && (x >= 0 && y >= 0);
 
 const validatePosition = (startCoordinates, shipPlaced, orientation) => {
   const isOrientationValid = Object.values(ORIENTATIONS).includes(orientation);
@@ -38,6 +38,7 @@ const validatePosition = (startCoordinates, shipPlaced, orientation) => {
     message: SUCCESS
   }
 }
+
 class Board {
   constructor() {
     board = [];
