@@ -6,6 +6,14 @@ var orientation;
 var coordinates;
 var shipNum = 1;
 
+const updateShipStatus = (coordinates) => {
+  return coordinates.every((elem) => elem.isHit === true) && health === 0;
+};
+
+const updateHealth = () => {
+  health = Math.ceil((coordinates.filter(elem => elem.isHit === false).length / coordinates.length) * 100);
+}
+
 class Ship {
   constructor(sName) {
     name = sName || 'Ship ' + shipNum;
@@ -45,31 +53,26 @@ class Ship {
     return shipNum;
   }
 
-  setHealth(newHealth) {
-    health = newHealth;
-  }
-
   setOrientation(newOrientation) {
     orientation = newOrientation;
   }
 
   setCoordinates(shipCoordinates, index = 0) {
-    coordinates[index] = {
-      coordinates: shipCoordinates,
-      isHit: false
-    };
+    if (isSunk === false) {
+      coordinates[index] = {
+        coordinates: shipCoordinates,
+        isHit: false
+      };
+    }
   }
 
   setIsHitForCoordinate(index) {
     if (isSunk === false) {
       coordinates[index].isHit = true;
+      updateHealth();
       isSunk = updateShipStatus(coordinates);
     }
   }
 }
-
-const updateShipStatus = (coordinates) => {
-  return coordinates.every((elem) => elem.isHit === true);
-};
 
 module.exports = Ship;

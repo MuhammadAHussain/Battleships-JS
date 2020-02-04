@@ -75,6 +75,33 @@ describe('ship', () => {
 			expect(ship_one.getCoordinates()).toEqual(expectedCoordinates);
 		});
 
+		describe('given a ship that has sunk', () => {
+			beforeEach(() => {
+				ship_one.setCoordinates({ x: 11, y: 10 });
+				ship_one.setCoordinates({ x: 12, y: 10 }, 1);
+				ship_one.setCoordinates({ x: 13, y: 10 }, 2);
+				ship_one.setIsHitForCoordinate(0);
+				ship_one.setIsHitForCoordinate(1);
+				ship_one.setIsHitForCoordinate(2);
+			});
+			it('should not set the coordinates', () => {
+				expect.assertions(3);
+
+				expect(ship_one.getIsSunk()).toEqual(true);
+
+				ship_one.setCoordinates({ x: 1, y: 1 });
+
+				expect(ship_one.getIsSunk()).toEqual(true);
+				const expectedResult = [
+					{ coordinates: { x: 11, y: 10 }, isHit: true },
+					{ coordinates: { x: 12, y: 10 }, isHit: true },
+					{ coordinates: { x: 13, y: 10 }, isHit: true }
+				]
+
+				expect(ship_one.getCoordinates()).toEqual(expectedResult);
+			});
+		});
+
 		describe('getHealth', () => {
 			beforeEach(() => {
 				ship_one.setCoordinates({ x: 11, y: 10 }, 0);
@@ -92,6 +119,7 @@ describe('ship', () => {
 				ship_one.setCoordinates({ x: 11, y: 10 }, 0);
 				ship_one.setCoordinates({ x: 12, y: 10 }, 1);
 				ship_one.setCoordinates({ x: 13, y: 10 }, 2);
+				ship_one.setCoordinates({ x: 14, y: 10 }, 3);
 			});
 
 			it('should set the health of a ship', () => {
@@ -99,7 +127,7 @@ describe('ship', () => {
 
 				expect(ship_one.getHealth()).toEqual(100);
 
-				ship_one.setHealth(75);
+				ship_one.setIsHitForCoordinate(0)
 
 				expect(ship_one.getHealth()).toEqual(75);
 			});
