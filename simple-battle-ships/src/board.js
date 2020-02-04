@@ -1,8 +1,9 @@
 const { ORIENTATIONS, ERRORMESSAGES, SUCCESS } = require('./lib/enums');
 
 var board;
+var ships;
 
-const validateCoordinates = (x, y) =>
+const coordinatesInsideBoard = (x, y) =>
   ((x - 1) <= board.length && (y - 1) <= board.length) && (x >= 0 && y >= 0);
 
 const validatePosition = (startCoordinates, shipPlaced, orientation) => {
@@ -22,14 +23,23 @@ const validatePosition = (startCoordinates, shipPlaced, orientation) => {
     }
   }
 
-  const endCoordinates = orientation === 'vertical' ? { x: startCoordinates.x + 3, y: startCoordinates.y } : { x: startCoordinates.x, y: startCoordinates.y + 3 }
+  const endCoordinates = orientation === ORIENTATIONS.VERTICAL ? { x: startCoordinates.x + 3, y: startCoordinates.y } : { x: startCoordinates.x, y: startCoordinates.y + 3 }
 
-  const isCoordinateValid = validateCoordinates(startCoordinates.x, startCoordinates.y) && validateCoordinates(endCoordinates.x, endCoordinates.y)
+  const areCoordinatesInsideBoard = coordinatesInsideBoard(startCoordinates.x, startCoordinates.y) && coordinatesInsideBoard(endCoordinates.x, endCoordinates.y)
 
-  if (isCoordinateValid === false) {
+  if (areCoordinatesInsideBoard === false) {
     return {
       status: false,
       message: ERRORMESSAGES.OUTOFBOUNDS
+    }
+  }
+
+  const areCoordinatesAvailable = coordinatesAvailable(startCoordinates, orientation);
+
+  if (areCoordinatesAvailable === false) {
+    return {
+      status: false,
+      message: ERRORMESSAGES.ANOTHERSHIP
     }
   }
 
@@ -39,17 +49,35 @@ const validatePosition = (startCoordinates, shipPlaced, orientation) => {
   }
 }
 
+const coordinatesAvailable = (startCoordinates, orientation) => {
+  let x = startCoordinates.x - 1;
+  let y = startCoordinates.y - 1;
+
+  const axis = orientation === ORIENTATIONS.VERTICAL;
+
+  for (let i = 0; i < 4; i++) {
+    if (board[x][y] !== '~') {
+      return false;
+    }
+    axis ? x++ : y++;
+  }
+
+  return true;
+
+}
+
 class Board {
   constructor() {
     board = [];
+    ships = [];
     this.initialiseArray();
   }
 
   initialiseArray() {
     for (let i = 0; i < 10; i++) {
-      board.push([0]);
+      board.push([]);
       for (let j = 0; j < 10; j++) {
-        board[i][j] = -1;
+        board[i][j] = '~';
       }
     }
   }
@@ -58,34 +86,44 @@ class Board {
     return board;
   }
 
-  placeShip(ship, coordinates, orientation = 'vertical') {
+  getShips() {
+    return ships;
+  }
+
+  placeShip(ship, coordinates, orientation = ORIENTATIONS.VERTICAL) {
     const shipPlaced = ship.getCoordinates().length > 0;
 
     const isShipPlacementValid = validatePosition(coordinates, shipPlaced, orientation);
+
+    const isVertical = orientation === ORIENTATIONS.VERTICAL;
 
     if (isShipPlacementValid.status === false) {
       return isShipPlacementValid
     }
 
     const shipLength = ship.getLength();
-    const front = orientation === 'vertical' ? '\u2227' : '\u2225';
-    const back = orientation === 'vertical' ? '\u2228' : '\u2226';
+    const front = isVertical ? '\u2227' : '\u003C';
+    const middle = isVertical ? '|' : '\u2501';
+    const back = isVertical ? '\u2228' : '\u003E';
 
-    const changeAxis = orientation === 'vertical' ? 'y' : 'x';
+    let x = coordinates.x - 1;
+    let y = coordinates.y - 1;
 
     for (let index = 0; index < shipLength; index++) {
       if (index === 0) {
-        board[coordinates.y - 1][coordinates.x - 1] = front;
-        ship.setCoordinates(coordinates, index);
+        board[x][y] = front;
+        ship.setCoordinates({ x, y }, index);
       } else if (index === shipLength - 1) {
-        board[coordinates.y - 1][coordinates.x - 1] = back;
-        ship.setCoordinates(coordinates, index);
+        board[x][y] = back;
+        ship.setCoordinates({ x, y }, index);
       } else {
-        board[coordinates.y - 1][coordinates.x - 1] = '|';
-        ship.setCoordinates(coordinates, index);
+        board[x][y] = middle;
+        ship.setCoordinates({ x, y }, index);
       }
-      coordinates[changeAxis]++;
+      isVertical ? x++ : y++;
     }
+
+    ships.push(ship);
 
     return {
       status: true,

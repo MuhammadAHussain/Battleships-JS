@@ -1,20 +1,8 @@
 const Board = require('../../src/board');
 const Ship = require('../../src/ship');
+const { emptyBoard, shipPlaceVerticalExpectedBoard, shipPlacedHorizontalExpectedBoard } = require('../fixtures/boardFixtures');
 
 jest.mock('../../src/ship');
-
-const emptyBoard = [
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-  [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-];
 
 describe('Board', () => {
   beforeEach(() => {
@@ -22,6 +10,7 @@ describe('Board', () => {
   });
 
   afterEach(() => {
+    board = undefined;
     jest.resetAllMocks();
   });
 
@@ -54,18 +43,7 @@ describe('Board', () => {
 
     describe('given a ship with coordinates', () => {
       it('should place the ship on the board', () => {
-        const expectedBoard = [
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, '\u2227', -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, '|', -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, '|', -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, '\u2228', -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-        ];
+        expect.assertions(5);
 
         expect(board.getBoard()).toStrictEqual(emptyBoard);
         expect(board.placeShip(ship_one, { x: 3, y: 4 })).toEqual({
@@ -73,25 +51,15 @@ describe('Board', () => {
           message: 'Ship has been placed'
         });
         expect(Ship.prototype.setCoordinates).toHaveBeenCalledTimes(4);
-        expect(board.getBoard()).toStrictEqual(expectedBoard);
+        expect(board.getBoard()).toStrictEqual(shipPlaceVerticalExpectedBoard);
+        expect(board.getShips().length).toEqual(1);
       });
     });
 
     describe('given a ship with coordinates and an orientation', () => {
 
       it('should place the ship on the board in the horizontal orientation', () => {
-        const expectedBoard = [
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, '\u2225', '|', '|', '\u2226', -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-        ];
+        expect.assertions(5);
 
         expect(board.getBoard()).toStrictEqual(emptyBoard);
 
@@ -100,7 +68,8 @@ describe('Board', () => {
           message: 'Ship has been placed'
         });
         expect(Ship.prototype.setCoordinates).toHaveBeenCalledTimes(4);
-        expect(board.getBoard()).toStrictEqual(expectedBoard);
+        expect(board.getBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
+        expect(board.getShips().length).toEqual(1);
       });
     });
 
@@ -116,42 +85,6 @@ describe('Board', () => {
 
         expect(board.placeShip(ship_one, { x: 5, y: 4 }, 'diagonal')).toStrictEqual(expectResult);
         expect(board.getBoard()).toStrictEqual(emptyBoard);
-      });
-    });
-    describe('given a ship that has already been placed', () => {
-
-      it('should not move the ship to the new coordinates', () => {
-        const expectedBoard = [
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, '\u2225', '|', '|', '\u2226', -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-          [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-        ];
-
-        expect(board.getBoard()).toStrictEqual(emptyBoard);
-
-        expect(board.placeShip(ship_one, { x: 3, y: 4 }, 'horizontal')).toStrictEqual({
-          status: true,
-          message: 'Ship has been placed'
-        });
-
-        expect(board.getBoard()).toStrictEqual(expectedBoard);
-
-        const expectResult = {
-          status: false,
-          message: 'Ship has already been placed'
-        }
-
-        Ship.prototype.getCoordinates.mockReturnValue([{}, {}, {}, {}]);
-
-        expect(board.placeShip(ship_one, { x: 3, y: 4 }, 'horizontal')).toStrictEqual(expectResult);
-
       });
     });
 
@@ -207,42 +140,112 @@ describe('Board', () => {
     });
 
     describe('given a ship that has already been placed', () => {
-      const expectedBoard = [
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, '\u2227', -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, '|', -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, '|', -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, '\u2228', -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-        [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-      ];
-      describe('given a second ship with the same coordinates', () => {
 
-        it('should not place the second ship', () => {
-          const ship_two = new Ship('ship_two');
+      describe('given the same ship with different coordinates', () => {
+        it('should not move the ship to the new coordinates', () => {
+
+          expect.assertions(4);
 
           expect(board.getBoard()).toStrictEqual(emptyBoard);
 
           expect(board.placeShip(ship_one, { x: 3, y: 4 })).toStrictEqual({
             status: true,
-            message: 'Success'
+            message: 'Ship has been placed'
           });
 
-          expect(board.getBoard()).toStrictEqual(expectedBoard);
+          expect(board.getBoard()).toStrictEqual(shipPlaceVerticalExpectedBoard);
+
+          const expectResult = {
+            status: false,
+            message: 'Ship has already been placed'
+          }
+
+          Ship.prototype.getCoordinates.mockReturnValue([{}, {}, {}, {}]);
+
+          expect(board.placeShip(ship_one, { x: 3, y: 4 }, 'horizontal')).toStrictEqual(expectResult);
+
+        });
+      });
+
+      describe('given a second ship with the same coordinates', () => {
+
+        it('should not place the second ship', () => {
+          const ship_two = new Ship('ship_two');
+
+          expect.assertions(7);
+
+          expect(board.getBoard()).toStrictEqual(emptyBoard);
+
+          expect(board.placeShip(ship_one, { x: 3, y: 4 })).toStrictEqual({
+            status: true,
+            message: 'Ship has been placed'
+          });
+
+          expect(board.getBoard()).toStrictEqual(shipPlaceVerticalExpectedBoard);
 
           expect(board.placeShip(ship_two, { x: 3, y: 4 })).toStrictEqual({
             status: false,
             message: 'Found another ship at that location'
           });
 
-          expect(board.getBoard()).toStrictEqual(expectedBoard);
+          expect(board.getBoard()).toStrictEqual(shipPlaceVerticalExpectedBoard);
 
-          expect(board.getShips().length).toEqual(1);
+          const expectedShipNameAndNum = {
+            name: ship_one.getName(),
+            num: ship_one.getShipNum()
+          }
 
-          expect(board.getShips()[0]).toStrictEqual(ship_one);
+          const ships = board.getShips();
+
+          expect(ships.length).toEqual(1);
+
+          const shipNameAndNumResult = {
+            name: ships[0].getName(),
+            num: ships[0].getShipNum()
+          }
+
+          expect(shipNameAndNumResult).toStrictEqual(expectedShipNameAndNum);
+
+        });
+      });
+
+      describe('given a second ship with coordinates that cross a placed ship', () => {
+        it('should not place the second ship', () => {
+          const ship_two = new Ship('ship_two');
+
+          expect.assertions(7);
+
+          expect(board.getBoard()).toStrictEqual(emptyBoard);
+
+          expect(board.placeShip(ship_one, { x: 3, y: 4 }, 'horizontal')).toStrictEqual({
+            status: true,
+            message: 'Ship has been placed'
+          });
+
+          expect(board.getBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
+
+          expect(board.placeShip(ship_two, { x: 5, y: 0 })).toStrictEqual({
+            status: false,
+            message: 'Found another ship at that location'
+          });
+
+          expect(board.getBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
+
+          const expectedShipNameAndNum = {
+            name: ship_one.getName(),
+            num: ship_one.getShipNum()
+          }
+
+          const ships = board.getShips();
+
+          expect(ships.length).toEqual(1);
+
+          const shipNameAndNumResult = {
+            name: ships[0].getName(),
+            num: ships[0].getShipNum()
+          }
+
+          expect(shipNameAndNumResult).toStrictEqual(expectedShipNameAndNum);
 
         });
       });

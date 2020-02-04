@@ -4,11 +4,12 @@ var health;
 var isSunk;
 var orientation;
 var coordinates;
+var shipNum = 1;
 
 class Ship {
   constructor(sName) {
-    name = sName || 'Ship ' + Ship.shipNum;
-    sName ? Ship.shipNum : Ship.shipNum++;
+    name = sName || 'Ship ' + shipNum;
+    shipNum++;
     length = 4;
     health = 100;
     isSunk = false;
@@ -40,6 +41,10 @@ class Ship {
     return coordinates;
   }
 
+  getShipNum() {
+    return shipNum;
+  }
+
   setHealth(newHealth) {
     health = newHealth;
   }
@@ -66,7 +71,5 @@ class Ship {
 const updateShipStatus = (coordinates) => {
   return coordinates.every((elem) => elem.isHit === true);
 };
-
-Ship.shipNum = 1;
 
 module.exports = Ship;
