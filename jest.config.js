@@ -1,4 +1,5 @@
 module.exports = {
+	verbose: false,
 	resetMocks: true,
 	collectCoverage: true,
 	collectCoverageFrom: ['<rootDir>/simple-battle-ships/src/**/*.js'],

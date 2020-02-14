@@ -5,17 +5,11 @@
   "main": "index.js",
   "scripts": {
     "pretest": "eslint .",
-    "test": "jest"
+    "unit": "jest ./test/unit/",
+    "functional": "jest ./test/functional/"
   },
   "author": "Muhammad Hussain",
   "license": "ISC",
-  "jest": {
-    "testEnvironment": "jest-environment-node",
-    "testMatch": [
-      "**/test/**/*.js"
-    ],
-    "verbose": false
-  },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "coverage": "^0.4.1",

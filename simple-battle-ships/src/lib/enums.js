@@ -16,7 +16,8 @@ const ERRORMESSAGES = {
 const SUCCESS = {
   PLACED: 'Ship has been placed',
   HIT: 'Hit!',
-  MISS: 'Miss'
+  MISS: 'Missed!',
+  DESTROYED: 'Ship destroyed!'
 }
 
 module.exports = {
