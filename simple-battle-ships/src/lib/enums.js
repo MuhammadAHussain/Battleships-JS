@@ -7,10 +7,17 @@ const ERRORMESSAGES = {
   ORIENTATION: 'Invalid orientation',
   PLACED: 'Ship has already been placed',
   OUTOFBOUNDS: 'Coordinates out of bounds',
-  ANOTHERSHIP: 'Found another ship at that location'
+  ANOTHERSHIP: 'Found another ship at that location',
+  NOSHIP: 'Ship could not be placed',
+  INVALIDCOORDINATES: 'Coordinates are invalid',
+  ALREADYSHOT: 'Target has already been hit!'
 }
 
-const SUCCESS = 'Ship has been placed'
+const SUCCESS = {
+  PLACED: 'Ship has been placed',
+  HIT: 'Hit!',
+  MISS: 'Miss'
+}
 
 module.exports = {
   ORIENTATIONS,
