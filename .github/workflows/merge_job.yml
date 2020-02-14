@@ -18,4 +18,4 @@ jobs:
           npm install
       - name: Run tests
         run: |
-          npm test
+          npm run unit && npm run functional
