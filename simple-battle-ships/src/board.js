@@ -234,7 +234,7 @@ class Board {
     if (shipIsSunk) {
       return {
         status: true,
-        message: `${SUCCESS.HIT} ${ship.getName()} has sunk!`
+        message: `${SUCCESS.DESTROYED} ${ship.getName()} has sunk!`
       }
     }
 

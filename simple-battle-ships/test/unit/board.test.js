@@ -11,7 +11,7 @@ const { emptyBoard,
 
 jest.mock('../../src/ship');
 
-describe('Board', () => {
+describe('board', () => {
   beforeEach(() => {
     Ship.prototype.getLength.mockReturnValue(4);
     Ship.prototype.getCoordinates.mockReturnValue(0);
@@ -336,7 +336,7 @@ describe('Board', () => {
 
         const expectedResult = {
           status: true,
-          message: 'Miss'
+          message: 'Missed!'
         }
 
         expect(board.shootShip({ x: 7, y: 4 })).toStrictEqual(expectedResult);
@@ -481,7 +481,7 @@ describe('Board', () => {
 
         const expectedResult = {
           status: true,
-          message: 'Hit! Ship 1 has sunk!'
+          message: 'Ship destroyed! Ship 1 has sunk!'
         }
 
         expect(board.shootShip({ x: 6, y: 4 })).toStrictEqual(expectedResult);
