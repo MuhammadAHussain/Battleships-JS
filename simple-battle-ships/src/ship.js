@@ -1,65 +1,55 @@
-var name;
-var length;
-var health;
-var isSunk;
-var orientation;
-var coordinates;
 var shipNum = 1;
 
-const updateShipStatus = (coordinates) => {
+const updateShipStatus = (coordinates, health) => {
   return coordinates.every((elem) => elem.isHit === true) && health === 0;
 };
 
-const updateHealth = () => {
-  health = Math.ceil((coordinates.filter(elem => elem.isHit === false).length / coordinates.length) * 100);
-}
-
 class Ship {
   constructor(sName) {
-    name = sName || 'Ship ' + shipNum;
+    this.name = sName || 'Ship ' + shipNum;
     shipNum++;
-    length = 4;
-    health = 100;
-    isSunk = false;
-    orientation = 'vertical';
-    coordinates = [];
+    this.length = 4;
+    this.health = 100;
+    this.isSunk = false;
+    this.orientation = 'vertical';
+    this.coordinates = [];
   }
 
   getName() {
-    return name;
+    return this.name;
   }
 
   getHealth() {
-    return health;
+    return this.health;
   }
 
   getLength() {
-    return length;
+    return this.length;
   }
 
   getOrientation() {
-    return orientation;
+    return this.orientation;
   }
 
   getIsSunk() {
-    return isSunk;
+    return this.isSunk;
   }
 
   getCoordinates() {
-    return coordinates;
-  }
-
-  getShipNum() {
-    return shipNum;
+    return this.coordinates;
   }
 
   setOrientation(newOrientation) {
-    orientation = newOrientation;
+    this.orientation = newOrientation;
+  }
+
+  setHealth() {
+    this.health = Math.ceil((this.coordinates.filter(elem => elem.isHit === false).length / this.coordinates.length) * 100);
   }
 
   setCoordinates(shipCoordinates, index = 0) {
-    if (isSunk === false) {
-      coordinates[index] = {
+    if (this.isSunk === false) {
+      this.coordinates[index] = {
         coordinates: shipCoordinates,
         isHit: false
       };
@@ -67,10 +57,10 @@ class Ship {
   }
 
   setIsHitForCoordinate(index) {
-    if (isSunk === false) {
-      coordinates[index].isHit = true;
-      updateHealth();
-      isSunk = updateShipStatus(coordinates);
+    if (this.isSunk === false) {
+      this.coordinates[index].isHit = true;
+      this.setHealth();
+      this.isSunk = updateShipStatus(this.coordinates, this.getHealth());
     }
   }
 }

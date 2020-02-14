@@ -15,7 +15,8 @@
   },
   "rules": {
     "new-cap": 0,
-    "no-undef": 0
+    "no-undef": 0,
+    "handle-callback-err": 0
   },
   "ignorePatterns": ["jest.config.js", "./"],
   "overrides": [

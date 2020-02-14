@@ -6,7 +6,8 @@
   "scripts": {
     "pretest": "eslint .",
     "unit": "jest ./test/unit/",
-    "functional": "jest ./test/functional/"
+    "functional": "jest ./test/functional/",
+    "start": "node simple-battle-ships/src/game.js"
   },
   "author": "Muhammad Hussain",
   "license": "ISC",
@@ -26,5 +27,8 @@
     "hooks": {
       "pre-commit": "eslint ."
     }
+  },
+  "dependencies": {
+    "prompt": "^1.0.0"
   }
 }
