@@ -102,7 +102,7 @@ const playerPlaceShip = async (turn) => {
 
     console.log('\n' + message + '\n');
 
-    board.getBoard().forEach(item => console.log(item));
+    board.getPlacementBoard().forEach(item => console.log(item));
 
     console.log('');
   } while (shipsPlaced < 3);
@@ -143,13 +143,14 @@ const startGame = async (playerTurn) => {
 
     console.log('\n' + message + '\n');
 
+    board.getBoard().forEach(item => console.log(item));
+
     if (status) {
       await switchTurns();
       turnSwitched = true;
       playerTurn = players[turn];
       await clearScreen();
     }
-
     winner = await findWinner();
   } while (isWinnerFound === false);
 
@@ -179,7 +180,7 @@ const clearScreen = async () => {
     setTimeout(() => {
       console.clear();
       resolve();
-    }, 1000);
+    }, 1500);
   });
 }
 

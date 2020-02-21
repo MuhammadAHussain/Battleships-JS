@@ -92,13 +92,13 @@ describe('board', () => {
       it('should place the ship on the board', () => {
         expect.assertions(5);
 
-        expect(board.getBoard()).toStrictEqual(emptyBoard);
+        expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
         expect(board.placeShip(ship_one, { x: 3, y: 4 })).toEqual({
           status: true,
           message: 'Ship has been placed'
         });
         expect(Ship.prototype.setCoordinates).toHaveBeenCalledTimes(4);
-        expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+        expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
         expect(board.getShips().length).toEqual(1);
       });
     });
@@ -107,14 +107,14 @@ describe('board', () => {
       it('should place the ship on the board in the horizontal orientation', () => {
         expect.assertions(5);
 
-        expect(board.getBoard()).toStrictEqual(emptyBoard);
+        expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
         expect(board.placeShip(ship_one, { x: 3, y: 4 }, 'horizontal')).toStrictEqual({
           status: true,
           message: 'Ship has been placed'
         });
         expect(Ship.prototype.setCoordinates).toHaveBeenCalledTimes(4);
-        expect(board.getBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
+        expect(board.getPlacementBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
         expect(board.getShips().length).toEqual(1);
       });
     });
@@ -122,7 +122,7 @@ describe('board', () => {
     describe('given a ship with coordinates and an invalid orientation', () => {
       it('should not place the ship and return a message', () => {
 
-        expect(board.getBoard()).toStrictEqual(emptyBoard);
+        expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
         const expectResult = {
           status: false,
@@ -130,96 +130,96 @@ describe('board', () => {
         }
 
         expect(board.placeShip(ship_one, { x: 5, y: 4 }, 'diagonal')).toStrictEqual(expectResult);
-        expect(board.getBoard()).toStrictEqual(emptyBoard);
+        expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
       });
     });
 
 
     describe('given an null ship argument', () => {
       it('should not place the ship on the board and return false', () => {
-        expect(board.getBoard()).toStrictEqual(emptyBoard);
+        expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
         const expectResult = {
           status: false,
           message: 'Ship could not be placed'
         }
         expect(board.placeShip(null, { x: 5, y: 4 })).toStrictEqual(expectResult);
-        expect(board.getBoard()).toStrictEq
+        expect(board.getPlacementBoard()).toStrictEq
       });
     });
 
     describe('given a ship with invalid coordinates', () => {
       describe('given coordinates which are not numbers', () => {
         it('should not place a ship and return a message', () => {
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
           expect(board.placeShip(ship_one, { x: 'hello', y: 'world' }, 'horizontal')).toStrictEqual({
             status: false,
             message: 'Coordinates are invalid'
           });
 
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
         });
       });
 
       describe('given coordinates that are not integer values', () => {
         it('should not place a ship and return a message', () => {
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
           expect(board.placeShip(ship_one, { x: 5.5, y: 4.5 }, 'horizontal')).toStrictEqual({
             status: false,
             message: 'Coordinates are invalid'
           });
 
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
         });
       });
 
       describe('given the x coordinate is more than 10', () => {
         it('should not place a ship on the board with an horizontal orientation', () => {
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
           expect(board.placeShip(ship_one, { x: 11, y: 10 }, 'horizontal')).toStrictEqual({
             status: false,
             message: 'Coordinates out of bounds'
           });
 
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
         });
 
         it('should not place a ship on the board with an vertical orientation', () => {
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
           expect(board.placeShip(ship_one, { x: 11, y: 10 })).toStrictEqual({
             status: false,
             message: 'Coordinates out of bounds'
           });
 
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
         });
       });
 
       describe('given the x coordinate is less than 0', () => {
         it('should not place a ship on the board with an horizontal orientation', () => {
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
           expect(board.placeShip(ship_one, { x: -1, y: -1 }, 'horizontal')).toStrictEqual({
             status: false,
             message: 'Coordinates out of bounds'
           });
 
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
         });
 
         it('should not place a ship on the board with an vertical orientation', () => {
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
           expect(board.placeShip(ship_one, { x: -1, y: -1 })).toStrictEqual({
             status: false,
             message: 'Coordinates out of bounds'
           });
 
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
         });
       });
     });
@@ -230,14 +230,14 @@ describe('board', () => {
 
           expect.assertions(4);
 
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
           expect(board.placeShip(ship_one, { x: 3, y: 4 })).toStrictEqual({
             status: true,
             message: 'Ship has been placed'
           });
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
           const expectResult = {
             status: false,
@@ -257,21 +257,21 @@ describe('board', () => {
 
           expect.assertions(7);
 
-          expect(board.getBoard()).toStrictEqual(emptyBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(emptyBoard);
 
           expect(board.placeShip(ship_one, { x: 3, y: 4 })).toStrictEqual({
             status: true,
             message: 'Ship has been placed'
           });
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
           expect(board.placeShip(ship_two, { x: 3, y: 4 })).toStrictEqual({
             status: false,
             message: 'Found another ship at that location'
           });
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
           const expectedShipNameAndNum = {
             name: ship_one.getName()
@@ -303,14 +303,14 @@ describe('board', () => {
             message: 'Ship has been placed'
           });
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
 
           expect(board.placeShip(ship_two, { x: 2, y: 4 })).toStrictEqual({
             status: false,
             message: 'Found another ship at that location'
           });
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
 
           const expectedShipNameAndNum = {
             name: ship_one.getName()
@@ -356,7 +356,7 @@ describe('board', () => {
 
     describe('given coordinates where a ship is located', () => {
       it('should hit the ship and reduce its health', () => {
-        expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+        expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
         const expectedResult = {
           status: true,
@@ -371,7 +371,7 @@ describe('board', () => {
 
     describe('given coordinates where no ship is located', () => {
       it('should not hit a ship and return miss message', () => {
-        expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+        expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
         const expectedResult = {
           status: true,
@@ -433,7 +433,7 @@ describe('board', () => {
     describe('given the coordinates are invalid', () => {
       describe('given that the coordinates are not integer values', () => {
         it('should not shoot a missile on the board', () => {
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
           const expectedResult = {
             status: false,
@@ -442,13 +442,13 @@ describe('board', () => {
 
           expect(board.shootShip({ x: 'hello', y: 'world' })).toStrictEqual(expectedResult);
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
         });
       });
 
       describe('given that the coordinates are float values', () => {
         it('should not shoot a missile on the board', () => {
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
           const expectedResult = {
             status: false,
@@ -457,13 +457,13 @@ describe('board', () => {
 
           expect(board.shootShip({ x: 4.5, y: 6.5 })).toStrictEqual(expectedResult);
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
         });
       });
 
       describe('given that the x coordinate is out of bounds', () => {
         it('should not shoot a missile on the board', () => {
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
           const expectedResult = {
             status: false,
@@ -472,13 +472,13 @@ describe('board', () => {
 
           expect(board.shootShip({ x: 11, y: 4 })).toStrictEqual(expectedResult);
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
         });
       });
 
       describe('given that the y coordinate is out of bounds', () => {
         it('should not shoot a missile on the board', () => {
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
           const expectedResult = {
             status: false,
@@ -487,13 +487,13 @@ describe('board', () => {
 
           expect(board.shootShip({ x: 4, y: 11 })).toStrictEqual(expectedResult);
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
         });
       });
 
       describe('given that both x and y coordinates are out of bounds', () => {
         it('should not shoot a missile on the board', () => {
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
           const expectedResult = {
             status: false,
@@ -502,7 +502,7 @@ describe('board', () => {
 
           expect(board.shootShip({ x: 0, y: 0 })).toStrictEqual(expectedResult);
 
-          expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
+          expect(board.getPlacementBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
         });
       });
     });
