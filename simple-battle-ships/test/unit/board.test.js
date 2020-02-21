@@ -1,5 +1,6 @@
 const Board = require('../../src/board');
 const Ship = require('../../src/ship');
+const Player = require('../../src/player');
 const { emptyBoard,
   shipPlacedVerticalExpectedBoard,
   shipPlacedHorizontalExpectedBoard,
@@ -10,12 +11,13 @@ const { emptyBoard,
 } = require('../fixtures/boardFixtures');
 
 jest.mock('../../src/ship');
+jest.mock('../../src/player');
 
 describe('board', () => {
   beforeEach(() => {
     Ship.prototype.getLength.mockReturnValue(4);
     Ship.prototype.getCoordinates.mockReturnValue(0);
-    return (board = new Board());
+    return (board = new Board(new Player()));
   });
 
   afterEach(() => {
@@ -36,6 +38,46 @@ describe('board', () => {
       expect(board.getBoard()).toStrictEqual(emptyBoard);
     });
   });
+
+  describe('getPlayer', () => {
+    beforeEach(() => {
+      Player.prototype.getName.mockReturnValue('Player 1');
+    });
+    it('should return the player that the board belongs two', () => {
+      expect(board.getPlayer().getName()).toStrictEqual('Player 1');
+    });
+  });
+
+  describe('assignedPlayer', () => {
+    let player_two;
+
+    beforeEach(() => {
+      player_two = new Player();
+      Player.prototype.getName.mockReturnValue('Player 2');
+    });
+
+    afterEach(() => {
+      player_two = undefined;
+    });
+
+    describe('getAssignedPlayer', () => {
+      it('should return the player that is assigned to the board', () => {
+        expect(board.getAssignedPlayer()).toEqual(undefined);
+      });
+    });
+
+    describe('setAssignedPlayer', () => {
+      it('should assign a player to the board', () => {
+        expect(board.getAssignedPlayer()).toEqual(undefined);
+
+        board.setAssignedPlayer(player_two);
+
+        expect(board.getAssignedPlayer().getName()).toEqual('Player 2');
+      });
+    });
+
+  });
+
 
   describe('placeShip', () => {
     beforeEach(() => {
@@ -232,8 +274,7 @@ describe('board', () => {
           expect(board.getBoard()).toStrictEqual(shipPlacedVerticalExpectedBoard);
 
           const expectedShipNameAndNum = {
-            name: ship_one.getName(),
-            num: ship_one.getShipNum()
+            name: ship_one.getName()
           }
 
           const ships = board.getShips();
@@ -241,8 +282,7 @@ describe('board', () => {
           expect(ships.length).toEqual(1);
 
           const shipNameAndNumResult = {
-            name: ships[0].getName(),
-            num: ships[0].getShipNum()
+            name: ships[0].getName()
           }
 
           expect(shipNameAndNumResult).toStrictEqual(expectedShipNameAndNum);
@@ -273,8 +313,7 @@ describe('board', () => {
           expect(board.getBoard()).toStrictEqual(shipPlacedHorizontalExpectedBoard);
 
           const expectedShipNameAndNum = {
-            name: ship_one.getName(),
-            num: ship_one.getShipNum()
+            name: ship_one.getName()
           }
 
           const ships = board.getShips();
@@ -282,8 +321,7 @@ describe('board', () => {
           expect(ships.length).toEqual(1);
 
           const shipNameAndNumResult = {
-            name: ships[0].getName(),
-            num: ships[0].getShipNum()
+            name: ships[0].getName()
           }
 
           expect(shipNameAndNumResult).toStrictEqual(expectedShipNameAndNum);
@@ -296,6 +334,7 @@ describe('board', () => {
   describe('shootShip', () => {
     beforeEach(() => {
       const ship_one = new Ship();
+      Player.prototype.getName.mockReturnValue('Player 1');
       Ship.prototype.getLength.mockReturnValue(4);
       Ship.prototype.getCoordinates
         .mockReturnValue([
@@ -304,7 +343,7 @@ describe('board', () => {
           { coordinates: { x: 4, y: 3 }, isHit: false },
           { coordinates: { x: 5, y: 3 }, isHit: false }
         ])
-        .mockReturnValueOnce(0)
+        .mockReturnValueOnce(0);
       Ship.prototype.getHealth.mockReturnValueOnce(75);
       Ship.prototype.getName.mockReturnValue('Ship 1');
       board.placeShip(ship_one, { x: 3, y: 4 });
@@ -321,7 +360,7 @@ describe('board', () => {
 
         const expectedResult = {
           status: true,
-          message: 'Hit! Ship 1 is at 75% health'
+          message: 'Hit! Ship 1 belonging to Player 1 is at 75% health'
         }
 
         expect(board.shootShip({ x: 4, y: 4 })).toStrictEqual(expectedResult);
@@ -481,7 +520,7 @@ describe('board', () => {
 
         const expectedResult = {
           status: true,
-          message: 'Ship destroyed! Ship 1 has sunk!'
+          message: 'Ship destroyed! Ship 1 belonging to Player 1 has sunk!'
         }
 
         expect(board.shootShip({ x: 6, y: 4 })).toStrictEqual(expectedResult);

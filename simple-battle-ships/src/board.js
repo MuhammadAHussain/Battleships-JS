@@ -1,17 +1,14 @@
 const { ORIENTATIONS, ERRORMESSAGES, SUCCESS } = require('./lib/enums');
 const { objectEquality } = require('./lib/objectEquality');
 
-var board;
-var ships;
-
-const allShipsDestroyed = () =>
+const allShipsDestroyed = (ships) =>
   ships.reduce((allShipsDestroyed, ship) => allShipsDestroyed && ship.getIsSunk(), true);
 
-const coordinatesInsideBoard = (x, y) => ((x) < board.length && (y) < board.length) && (x > 0 && y > 0);
+const coordinatesInsideBoard = (x, y) => ((x) < 10 && (y) < 10) && (x >= 0 && y >= 0);
 
 const coordinatesTypeOf = (x, y) => Number.isInteger(x) && Number.isInteger(y)
 
-const validatePosition = (x, y, shipPlaced, orientation) => {
+const validatePosition = (x, y, shipPlaced, orientation, board) => {
 
   const coordinatesNumbers = coordinatesTypeOf(x, y);
 
@@ -49,7 +46,7 @@ const validatePosition = (x, y, shipPlaced, orientation) => {
     }
   }
 
-  const areCoordinatesAvailable = coordinatesAvailable(x, y, orientation);
+  const areCoordinatesAvailable = coordinatesAvailable(x, y, orientation, board);
 
   if (areCoordinatesAvailable === false) {
     return {
@@ -63,7 +60,7 @@ const validatePosition = (x, y, shipPlaced, orientation) => {
   }
 }
 
-const coordinatesAvailable = (x, y, orientation) => {
+const coordinatesAvailable = (x, y, orientation, board) => {
   const axis = orientation === ORIENTATIONS.VERTICAL;
 
   for (let i = 0; i < 4; i++) {
@@ -77,7 +74,7 @@ const coordinatesAvailable = (x, y, orientation) => {
 
 }
 
-const findShip = (target) => {
+const findShip = (target, ships) => {
   for (let ship of ships) {
     const coordinates = ship.getCoordinates().map(elem => elem.coordinates)
     const shipHasCoordinates = coordinates.some(elem => objectEquality(elem, target));
@@ -96,7 +93,7 @@ const setShipHitCoordinate = (ship, coordinates) => {
   return ship.getIsSunk();
 }
 
-const validTarget = (x, y) => {
+const validTarget = (x, y, board) => {
 
   const areCoordinatesNumbers = coordinatesTypeOf(x, y);
 
@@ -131,31 +128,31 @@ const validTarget = (x, y) => {
 }
 
 class Board {
-  constructor() {
-    board = [];
-    ships = [];
+  constructor(owner) {
+    this.board = [];
+    this.ships = [];
+    this.player = owner;
     this.initialiseArray();
   }
 
   initialiseArray() {
     for (let i = 0; i < 10; i++) {
-      board.push([]);
+      this.board.push([]);
       for (let j = 0; j < 10; j++) {
-        board[i][j] = '~';
+        this.board[i][j] = '~';
       }
     }
   }
 
   getBoard() {
-    return board;
+    return this.board;
   }
 
   getShips() {
-    return ships;
+    return this.ships;
   }
 
   placeShip(ship, coordinates, orientation = ORIENTATIONS.VERTICAL) {
-
     let x = coordinates.x - 1;
     let y = coordinates.y - 1;
 
@@ -167,7 +164,7 @@ class Board {
     }
     const shipPlaced = ship.getCoordinates().length > 0;
 
-    const { status, message } = validatePosition(x, y, shipPlaced, orientation);
+    const { status, message } = validatePosition(x, y, shipPlaced, orientation, this.board);
 
     const isVertical = orientation === ORIENTATIONS.VERTICAL;
 
@@ -182,19 +179,19 @@ class Board {
 
     for (let index = 0; index < shipLength; index++) {
       if (index === 0) {
-        board[x][y] = front;
+        this.board[x][y] = front;
         ship.setCoordinates({ x, y }, index);
       } else if (index === shipLength - 1) {
-        board[x][y] = back;
+        this.board[x][y] = back;
         ship.setCoordinates({ x, y }, index);
       } else {
-        board[x][y] = middle;
+        this.board[x][y] = middle;
         ship.setCoordinates({ x, y }, index);
       }
       isVertical ? x++ : y++;
     }
 
-    ships.push(ship);
+    this.ships.push(ship);
 
     return {
       status: true,
@@ -206,7 +203,7 @@ class Board {
     const x = coordinates.x - 1;
     const y = coordinates.y - 1;
 
-    const { status, message } = validTarget(x, y);
+    const { status, message } = validTarget(x, y, this.board);
 
     if (status === false) {
       return {
@@ -215,37 +212,49 @@ class Board {
       }
     }
 
-    const indexValue = board[x][y];
+    const indexValue = this.board[x][y];
 
     if (indexValue === '~') {
-      board[x][y] = 'M';
+      this.board[x][y] = 'M';
       return {
         status: true,
         message: SUCCESS.MISS
       }
     }
 
-    const ship = findShip({ x, y });
+    const ship = findShip({ x, y }, this.ships);
 
     const shipIsSunk = setShipHitCoordinate(ship, { x, y });
 
-    board[x][y] = 'X';
+    this.board[x][y] = 'X';
 
     if (shipIsSunk) {
       return {
         status: true,
-        message: `${SUCCESS.DESTROYED} ${ship.getName()} has sunk!`
+        message: `${SUCCESS.DESTROYED} ${ship.getName()} belonging to ${this.player.getName()} has sunk!`
       }
     }
 
     return {
       status: true,
-      message: `${SUCCESS.HIT} ${ship.getName()} is at ${ship.getHealth()}% health`
+      message: `${SUCCESS.HIT} ${ship.getName()} belonging to ${this.player.getName()} is at ${ship.getHealth()}% health`
     }
   }
 
+  getPlayer() {
+    return this.player;
+  }
+
+  setAssignedPlayer(player) {
+    this.assignedPlayer = player;
+  }
+
+  getAssignedPlayer() {
+    return this.assignedPlayer;
+  }
+
   getAllShipDestroyed() {
-    return allShipsDestroyed()
+    return allShipsDestroyed(this.ships);
   };
 }
 

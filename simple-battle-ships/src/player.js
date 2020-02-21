@@ -1,16 +1,22 @@
-let name;
+var playerNum = 1;
 
 class Player {
   constructor(pName) {
-    name = pName || 'Player ' + Player.playerNum;
-    pName ? Player.playerNum : Player.playerNum++;
+    this.name = pName || 'Player ' + playerNum;
+    playerNum++;
   }
 
   getName() {
-    return name;
+    return this.name;
+  }
+
+  setAssignedBoard(board) {
+    this.assignedBoard = board;
+  }
+
+  getAssignedBoard() {
+    return this.assignedBoard;
   }
 }
-
-Player.playerNum = 1;
 
 module.exports = Player;

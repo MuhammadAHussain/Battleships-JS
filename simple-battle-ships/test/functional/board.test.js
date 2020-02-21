@@ -1,5 +1,6 @@
 const Board = require('../../src/board');
 const Ship = require('../../src/ship');
+const Player = require('../../src/player');
 const { emptyBoard,
   shipPlacedVerticalExpectedBoard,
   shipPlacedHorizontalExpectedBoard,
@@ -13,15 +14,23 @@ const { emptyBoard,
 describe('board', () => {
   let ship_one;
   let board;
+  let player_one;
 
   beforeEach(() => {
     ship_one = new Ship('ship_one');
-    board = new Board();
+    player_one = new Player();
+    board = new Board(player_one);
   });
 
   afterEach(() => {
     board = undefined;
     ship = undefined;
+  });
+
+  describe('getPlayer', () => {
+    it('should return the player the board belongs to', () => {
+      expect(board.getPlayer().getName()).toStrictEqual('Player 1');
+    });
   });
 
   describe('placeShip', () => {
@@ -82,7 +91,7 @@ describe('board', () => {
 
         const expectedResult = {
           status: true,
-          message: 'Hit! ship_one is at 75% health'
+          message: 'Hit! ship_one belonging to Player 5 is at 75% health'
         }
 
         expect(board.shootShip({ x: 4, y: 4 })).toStrictEqual(expectedResult);
@@ -136,7 +145,7 @@ describe('board', () => {
 
         const expectedResult = {
           status: true,
-          message: 'Ship destroyed! ship_one has sunk!'
+          message: 'Ship destroyed! ship_one belonging to Player 8 has sunk!'
         }
 
         expect(board.shootShip({ x: 6, y: 4 })).toStrictEqual(expectedResult);

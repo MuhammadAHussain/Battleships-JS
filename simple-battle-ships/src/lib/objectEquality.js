@@ -14,17 +14,6 @@ const objectEquality = (firstObj, secondObj) => {
     return hasSameLength && hasAllProperties && hasAllValues;
 }
 
-const shipEquality = (shipOne, shipTwo) => {
-    const hasSameName = shipOne.getName() === shipTwo.getName();
-
-    const hasSameShipNum = shipOne.getShipNum() === shipTwo.getShipNum();
-
-    const hasSameCoordinates = shipOne.getCoordinates().every((elem, index) => objectEquality(elem, shipTwo.getCoordinates()[index]));
-
-    return hasSameName && hasSameShipNum && hasSameCoordinates
-}
-
 module.exports = {
-    objectEquality,
-    shipEquality
+    objectEquality
 }
